@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Trust Jehovah Clinic</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header class="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <img src="images/logo.png" alt="Trust Jehovah Clinic Logo" />
+            <h1>Trust Jehovah Clinic</h1>
+          </div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#product">Cancid</a></li>
+            <li><a href="index.html#conditions">Conditions</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="blog-form.html">Blog Submissions</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <section class="blog-post">
+      <div class="container">
+        <div class="blog-post-header">
+          <h1 id="post-title">Loading...</h1>
+          <p class="blog-post-meta" id="post-meta"></p>
+        </div>
+        <div class="blog-post-image">
+          <img id="post-image" alt="Blog post image" />
+        </div>
+        <div class="blog-post-content" id="post-content"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <img src="images/logo.png" alt="Trust Jehovah Clinic Logo" />
+            <h3>Trust Jehovah Clinic</h3>
+            <p class="slogan">
+              Cancid! ... The Beginning of the End of Cancer and HIV/AIDS
+            </p>
+          </div>
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html#about">About Us</a></li>
+              <li><a href="index.html#product">Cancid</a></li>
+              <li><a href="index.html#conditions">Conditions</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="blog-form.html">Blog Submissions</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-social">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Trust Jehovah Clinic. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script type="module">
+      import { db } from "./js/firebase-config.js";
+      import {
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+      async function loadPost() {
+        const postId = new URLSearchParams(window.location.search).get("id");
+
+        try {
+          const postRef = doc(db, "posts", postId);
+          const docSnap = await getDoc(postRef);
+
+          if (docSnap.exists()) {
+            const post = docSnap.data();
+            document.getElementById("post-title").textContent = post.title;
+            document.getElementById("post-image").src = post.image;
+            document.getElementById(
+              "post-meta"
+            ).textContent = `Published ${new Date(
+              post.date
+            ).toLocaleDateString()} by ${post.author}`;
+            document.getElementById("post-content").innerHTML = post.content;
+          } else {
+            showPostError();
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showPostError();
+        }
+      }
+
+      function showPostError() {
+        document.querySelector(".blog-post").innerHTML = `
+            <div class="error-message">
+              <p>Post not found. <a href="blog.html">Return to blog</a></p>
+            </div>
+          `;
+      }
+
+      document.addEventListener("DOMContentLoaded", loadPost);
+    </script>
+  </body>
+</html>

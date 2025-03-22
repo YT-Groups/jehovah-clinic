@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Blog Post - Trust Jehovah Clinic</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Reused Header Section -->
+    <header class="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <img src="images/logo.png" alt="Trust Jehovah Clinic Logo" />
+            <h1>Trust Jehovah Clinic</h1>
+          </div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#product">Cancid</a></li>
+            <li><a href="index.html#conditions">Conditions</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="blog-form.html">Blog Submissions</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Blog Form Section -->
+    <section class="blog-form-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="slide-in">Add New Blog Post</h2>
+          <div class="underline"></div>
+        </div>
+
+        <form id="blogForm" class="blog-form">
+          <div class="form-group">
+            <label for="postTitle" class="form-label">Post Title</label>
+            <input
+              type="text"
+              id="postTitle"
+              placeholder="Enter post title"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="postExcerpt" class="form-label">Excerpt</label>
+            <textarea
+              id="postExcerpt"
+              placeholder="Write a short excerpt"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="postContent" class="form-label">Content</label>
+            <textarea
+              id="postContent"
+              placeholder="Write your full content (supports HTML)"
+              rows="10"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="postImage" class="form-label">Featured Image URL</label>
+            <input
+              type="url"
+              id="postImage"
+              placeholder="https://example.com/image.jpg"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="postAuthor" class="form-label">Author Name</label>
+            <input
+              type="text"
+              id="postAuthor"
+              placeholder="Enter author's name"
+              required
+            />
+          </div>
+          <button type="submit" class="btn">Publish Post</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Reused Footer Section -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <img src="images/logo.png" alt="Trust Jehovah Clinic Logo" />
+            <h3>Trust Jehovah Clinic</h3>
+            <p class="slogan">
+              Cancid! ... The Beginning of the End of Cancer and HIV/AIDS
+            </p>
+          </div>
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html#about">About Us</a></li>
+              <li><a href="index.html#product">Cancid</a></li>
+              <li><a href="index.html#conditions">Conditions</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="blog-form.html">Blog Submissions</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-social">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Trust Jehovah Clinic. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <!-- Add Firebase SDK before closing </body> -->
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYUjiAI_YjQfMkigfp7UpIudKUTUziXXQ",
+        authDomain: "blog-responses-a7c88.firebaseapp.com",
+        projectId: "blog-responses-a7c88",
+        storageBucket: "blog-responses-a7c88.firebasestorage.app",
+        messagingSenderId: "172061678785",
+        appId: "1:172061678785:web:ef1d377a2ba2ba73bc8840",
+        measurementId: "G-2BWRH50C1B",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      document
+        .getElementById("blogForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const newPost = {
+            title: document.getElementById("postTitle").value,
+            excerpt: document.getElementById("postExcerpt").value,
+            content: document.getElementById("postContent").value,
+            image: document.getElementById("postImage").value,
+            author: document.getElementById("postAuthor").value,
+            date: new Date().toISOString(),
+          };
+
+          try {
+            // Add document to Firestore
+            const docRef = await addDoc(collection(db, "posts"), newPost);
+            console.log("Document written with ID:", docRef.id);
+            console.log("Full document path:", `posts/${docRef.id}`);
+            // await addDoc(collection(db, "posts"), newPost);
+            alert("Post published successfully!");
+            window.location.href = "blog.html";
+          } catch (error) {
+            console.error("Full error object:", error);
+            console.error("Error publishing post: " + error.message);
+          }
+        });
+    </script>
+  </body>
+</html>
